@@ -17,7 +17,7 @@ connectDB();
 // CORS Configuration
 const corsOptions = {
     origin: process.env.NODE_ENV === 'production'
-        ? 'https://66b5aec8437cd40836edf157--aesthetic-torte-4c544a.netlify.app' // Production frontend URL
+        ? 'https://66b5d92c765cfe30d1a29d1f--gleaming-sfogliatella-ca2311.netlify.app/' // Production frontend URL
         : 'http://localhost:5173', // Local development URL
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
