@@ -17,11 +17,12 @@ connectDB();
 // CORS Configuration
 const corsOptions = {
     origin: process.env.NODE_ENV === 'production'
-        ? 'https://cosmic-douhua-bb869a.netlify.app' // Production frontend URL
+        ? 'https://66b5aec8437cd40836edf157--aesthetic-torte-4c544a.netlify.app' // Production frontend URL
         : 'http://localhost:5173', // Local development URL
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
 };
+
 
 app.use(cors(corsOptions));
 
