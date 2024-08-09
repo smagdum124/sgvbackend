@@ -3,7 +3,7 @@ const dotenv = require('dotenv');
 const connectDB = require('./config/connectdb');
 const admissionRoutes = require('./routes/admission');
 const queryRoutes = require('./routes/query');
-const uploadRoutes = require('./routes/upload'); // Import upload.js
+const uploadRoutes = require('./routes/upload');
 const cors = require('cors');
 const path = require('path');
 
@@ -16,7 +16,9 @@ connectDB();
 
 // CORS Configuration
 const corsOptions = {
-    origin: 'http://localhost:5173', // Replace with your frontend URL
+    origin: process.env.NODE_ENV === 'production'
+        ? 'https://cosmic-douhua-bb869a.netlify.app' // Production frontend URL
+        : 'http://localhost:5173', // Local development URL
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
 };
@@ -29,7 +31,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // Routes
 app.use('/api/admission', admissionRoutes);
 app.use('/api/query', queryRoutes);
-app.use('/api', uploadRoutes); // Use uploadRoutes for /api routes
+app.use('/api', uploadRoutes);
 
 app.get('/', (req, res) => {
     res.send('API is running...');
