@@ -18,11 +18,12 @@ connectDB();
 const corsOptions = {
   origin:
     process.env.NODE_ENV === "production"
-      ? "https://66c31b44b5731ca0aecdbf84--remarkable-druid-e8d44d.netlify.app" // Update this URL
+      ? "https://66c31b44b5731ca0aecdbf84--remarkable-druid-e8d44d.netlify.app" // Netlify live domain
       : "http://localhost:5173", // Local development URL
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
 };
+
 
 app.use(cors(corsOptions));
 
