@@ -3,6 +3,7 @@ const multer = require('multer');
 const Admission = require('../models/Admission');
 const router = express.Router();
 
+// Setup storage for file uploads
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, 'uploads/');
@@ -14,12 +15,24 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+// Dynamic import for nanoid in an async function
+async function getCustomAlphabet() {
+    const { customAlphabet } = await import('nanoid');
+    return customAlphabet;
+}
+
 router.post('/onlineAdmission', upload.fields([
     { name: 'studentImage', maxCount: 1 },
     { name: 'studentSignature', maxCount: 1 },
     { name: 'document', maxCount: 1 }
 ]), async (req, res) => {
     try {
+        const customAlphabet = await getCustomAlphabet(); // Import inside async function
+        const generateAckNumber = customAlphabet('1234567890', 6);
+        
+        // Generate a unique acknowledgment number with "sgv" prefix
+        const newAckNumber = `sgv${generateAckNumber()}`;
+
         const {
             subject, studentName, fatherName, motherName, DOB, category, gender,
             mobileNumber, email, address, pinCode, state, adhaar, qualification,
@@ -27,6 +40,7 @@ router.post('/onlineAdmission', upload.fields([
         } = req.body;
 
         const newAdmission = new Admission({
+            acknowledgmentNumber: newAckNumber, // Save the generated acknowledgment number
             subject, studentName, fatherName, motherName, DOB, category, gender,
             mobileNumber, email, address, pinCode, state, adhaar, qualification,
             collageCode, studyMode, examMode,
@@ -43,9 +57,7 @@ router.post('/onlineAdmission', upload.fields([
     }
 });
 
-
-// Get all admissions
-// Fetch all admissions and exclude the `__v` field
+// GET route to fetch all admissions
 router.get('/admissions', async (req, res) => {
     try {
         // Fetch admissions and exclude the `__v` field
@@ -56,7 +68,7 @@ router.get('/admissions', async (req, res) => {
     }
 });
 
-
+// GET route to fetch a specific admission by ID
 router.get('/admission/:id', async (req, res) => {
     try {
         const admission = await Admission.findById(req.params.id);
@@ -71,5 +83,3 @@ router.get('/admission/:id', async (req, res) => {
 });
 
 module.exports = router;
-
-

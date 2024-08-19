@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const AdmissionSchema = new mongoose.Schema({
+    acknowledgmentNumber: { type: String, required: true }, // Add this line
     subject: { type: String, required: true },
     studentName: { type: String, required: true },
     fatherName: { type: String, required: true },
